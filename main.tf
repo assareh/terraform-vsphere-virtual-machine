@@ -71,10 +71,14 @@ resource "vsphere_virtual_machine" "vm" {
   }
 }
 
-output "vm_id" {
+output "id" {
   value = vsphere_virtual_machine.vm.id
 }
 
-output "vm_ip" {
-  value = vsphere_virtual_machine.vm.guest_ip_addresses
+output "ip" {
+  value = vsphere_virtual_machine.vm.default_ip_addresse
+}
+
+output "name" {
+  value = vsphere_virtual_machine.vm.name
 }
