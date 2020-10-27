@@ -36,13 +36,13 @@ variable "num_cpus" {
 # memory
 variable "memory" {
   type        = number
-  description = "Specify the amount of memory to assign"
+  description = "Specify the amount of memory in MB to assign"
   default     = 512
 }
 
 # disk size
 variable "disk_size" {
   type        = number
-  description = "Specify the amount of storage to assign"
-  default     = 16384
+  description = "Specify the amount of storage in GB to assign"
+  default     = 16
 }

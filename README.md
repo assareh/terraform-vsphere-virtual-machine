@@ -18,3 +18,9 @@ The following inputs are required for this module:
     - dev, test, stage, prod
 - Owner
     - This should be your internal ID or project ID if you are a contractor.
+
+## Defaults
+* Ubuntu 16.04
+* 1 CPU
+* 512 MB RAM
+* 16 GB storage
