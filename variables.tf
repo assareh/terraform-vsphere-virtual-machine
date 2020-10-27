@@ -26,9 +26,23 @@ variable "owner" {
   description = "Specify the owner of the resource"
 }
 
-# vm image
-variable "vm_image" {
-  type        = string
-  description = "Provide the virtual machine image to deploy"
-  default = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64.ova"
+# num cpus
+variable "num_cpus" {
+  type        = number
+  description = "Specify the number of cores to assign"
+  default     = 1
+}
+
+# memory
+variable "memory" {
+  type        = number
+  description = "Specify the amount of memory to assign"
+  default     = 512
+}
+
+# disk size
+variable "disk_size" {
+  type        = number
+  description = "Specify the amount of storage to assign"
+  default     = 16384
 }

@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.13"
   required_providers {
     vsphere = {
-      source = "hashicorp/vsphere"
+      source  = "hashicorp/vsphere"
       version = ">= 1.24.1"
     }
   }
@@ -48,8 +48,8 @@ resource "vsphere_virtual_machine" "vm" {
   datastore_id     = data.vsphere_datastore.datastore.id
 
   annotation = "Managed with Terraform"
-  num_cpus   = 2
-  memory     = 1024
+  num_cpus   = var.num_cpus
+  memory     = var.memory
   guest_id   = data.vsphere_virtual_machine.template.guest_id
 
   scsi_type = data.vsphere_virtual_machine.template.scsi_type
@@ -61,7 +61,7 @@ resource "vsphere_virtual_machine" "vm" {
 
   disk {
     label            = "disk0"
-    size             = data.vsphere_virtual_machine.template.disks.0.size
+    size             = var.disk_size
     eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
   }
