@@ -90,3 +90,7 @@ output "ssh_addr" {
     $ ssh hashicorp@${vsphere_virtual_machine.vm.default_ip_address}
 SSH
 }
+
+output "compute_cluster_id" {
+  value = data.vsphere_compute_cluster.cluster.id
+}
