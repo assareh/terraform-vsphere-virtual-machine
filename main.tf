@@ -85,6 +85,7 @@ output "name" {
 
 output "ssh_addr" {
   value = <<SSH
+
     Connect to your virtual machine via SSH:
     $ ssh hashicorp@${vsphere_virtual_machine.vm.default_ip_address}
 SSH
