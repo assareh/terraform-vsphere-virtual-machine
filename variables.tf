@@ -32,17 +32,3 @@ variable "vm_image" {
   description = "Provide the virtual machine image to deploy"
   default = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64.ova"
 }
-
-################################
-## Administrative - Variables ##
-################################
-
-variable "vsphere_server" {
-  default = "10.100.0.3"
-}
-
-variable "vsphere_user" {
-}
-
-variable "vsphere_password" {
-}
