@@ -14,16 +14,16 @@ provider "vsphere" {
 }
 
 data "vsphere_datacenter" "dc" {
-  name = "Oban"
+  name = "PacketDatacenter"
 }
 
-data "vsphere_resource_pool" "pool" {
-  name          = "Default"
+data "vsphere_compute_cluster" "cluster" {
+  name          = "MainCluster"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_host" "host" {
-  name          = "oban.assareh.com"
+  name          = "10.100.0.2"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -38,13 +38,13 @@ data "vsphere_network" "network" {
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "ubuntu-16-template"
+  name          = "ubuntu-18-template"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 resource "vsphere_virtual_machine" "vm" {
   name             = "${var.environment}-${var.app_name}-vm"
-  resource_pool_id = data.vsphere_resource_pool.pool.id
+  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
 
   annotation = "Managed with Terraform"
@@ -71,6 +71,13 @@ resource "vsphere_virtual_machine" "vm" {
   }
 }
 
+output "http_addr" {
+  value = <<HTTP
+    Connect to your virtual machine via HTTP:
+    $ http://${vsphere_virtual_machine.vm.default_ip_address}:8080
+HTTP
+}
+
 output "id" {
   value = vsphere_virtual_machine.vm.id
 }
@@ -91,6 +98,6 @@ output "ssh_addr" {
 SSH
 }
 
-output "resource_pool_id" {
-  value = data.vsphere_resource_pool.pool.id
+output "compute_cluster_id" {
+  value = data.vsphere_compute_cluster.cluster.id
 }
