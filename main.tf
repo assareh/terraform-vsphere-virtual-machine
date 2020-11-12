@@ -38,7 +38,7 @@ data "vsphere_network" "network" {
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "ubuntu-16-template"
+  name          = "ubuntu-18-template"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -71,6 +71,14 @@ resource "vsphere_virtual_machine" "vm" {
   }
 }
 
+output "http_addr" {
+  value = <<HTTP
+
+    Connect to your virtual machine via HTTP:
+    $ http://${vsphere_virtual_machine.vm.default_ip_address}:8080
+HTTP
+}
+
 output "id" {
   value = vsphere_virtual_machine.vm.id
 }
@@ -87,7 +95,7 @@ output "ssh_addr" {
   value = <<SSH
 
     Connect to your virtual machine via SSH:
-    $ ssh hashicorp@${vsphere_virtual_machine.vm.default_ip_address}
+    $ ssh assareh@${vsphere_virtual_machine.vm.default_ip_address}
 SSH
 }
 
