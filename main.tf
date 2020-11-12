@@ -14,16 +14,16 @@ provider "vsphere" {
 }
 
 data "vsphere_datacenter" "dc" {
-  name = "PacketDatacenter"
+  name = "Oban"
 }
 
-data "vsphere_compute_cluster" "cluster" {
-  name          = "MainCluster"
+data "vsphere_resource_pool" "pool" {
+  name          = "Default"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_host" "host" {
-  name          = "10.100.0.2"
+  name          = "oban.assareh.com"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -44,7 +44,7 @@ data "vsphere_virtual_machine" "template" {
 
 resource "vsphere_virtual_machine" "vm" {
   name             = "${var.environment}-${var.app_name}-vm"
-  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
+  resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore.id
 
   annotation = "Managed with Terraform"
@@ -91,6 +91,6 @@ output "ssh_addr" {
 SSH
 }
 
-output "compute_cluster_id" {
-  value = data.vsphere_compute_cluster.cluster.id
+output "resource_pool_id" {
+  value = data.vsphere_resource_pool.pool.id
 }
