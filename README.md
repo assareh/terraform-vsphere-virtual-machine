@@ -1,6 +1,6 @@
 # vSphere Virtual Machine Request
 
-This module is supplied by the cloud platforms team for all virtual machines on VMware vSphere.
+This module is supplied by the Cloud Platforms Team for all virtual machines on VMware vSphere.
 Please note that all requests for virtual machines that bypass this module will be blocked by default.
 
 If this module does not do what you need, please raise an issue or even better a pull request!
@@ -20,7 +20,7 @@ The following inputs are required for this module:
     - This should be your internal ID or project ID if you are a contractor.
 
 ## Defaults
-* Ubuntu 16.04
+* Ubuntu 18.04
 * 1 CPU
 * 512 MB RAM
 * 16 GB storage
