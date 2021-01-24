@@ -19,6 +19,8 @@ The following inputs are required for this module:
 - Owner
     - This should be your internal ID or project ID if you are a contractor.
 
+Your Terraform workspace will also require vCenter credentials.
+
 ## Defaults
 * Ubuntu 18.04 (hashidemos packer image)
 * 1 CPU
