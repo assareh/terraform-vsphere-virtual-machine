@@ -25,12 +25,12 @@ SSH
 }
 
 output "router_ip" {
-  value = vsphere_virtual_machine.router.default_ip_address
+  value = vsphere_virtual_machine.router.guest_ip_addresses
 }
 
 output "router_ssh_addr" {
   value = <<SSH
 Connect to your router via SSH:
-ssh ubuntu@${vsphere_virtual_machine.router.default_ip_address}
+ssh ubuntu@${vsphere_virtual_machine.router.guest_ip_addresses}
 SSH
 }
