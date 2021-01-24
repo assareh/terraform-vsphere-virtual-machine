@@ -61,8 +61,8 @@ resource "vsphere_virtual_machine" "vm" {
   }
 }
 
-resource "vsphere_virtual_machine" "cisco_router_1" {
-  name                       = "cisco-vm1"
+resource "vsphere_virtual_machine" "router" {
+  name                       = "${var.environment}-${var.app_name}-router"
   resource_pool_id           = data.vsphere_resource_pool.pool.id
   datastore_id               = data.vsphere_datastore.datastore.id
   host_system_id             = data.vsphere_host.host.id
