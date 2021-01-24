@@ -60,3 +60,28 @@ resource "vsphere_virtual_machine" "vm" {
     template_uuid = data.vsphere_virtual_machine.template.id
   }
 }
+
+resource "vsphere_virtual_machine" "cisco_router_1" {
+  name                       = "cisco-vm1"
+  resource_pool_id           = data.vsphere_resource_pool.pool.id
+  datastore_id               = data.vsphere_datastore.datastore.id
+  host_system_id             = data.vsphere_host.host.id
+  wait_for_guest_net_timeout = 0
+  wait_for_guest_ip_timeout  = 0
+  datacenter_id              = data.vsphere_datacenter.dc.id
+  ovf_deploy {
+    remote_ovf_url       = "http://192.168.20.20:8000/csr1000v-universalk9.03.15.00.S.155-2.S-std.ova"
+    disk_provisioning    = "thin"
+    ip_protocol          = "IPV4"
+    ip_allocation_policy = "STATIC_MANUAL"
+    ovf_network_map = {
+      "ESX-port-1" = data.vsphere_network.network.id
+      "ESX-port-2" = data.vsphere_network.network.id
+    }
+  }
+  vapp {
+    properties = {
+      "guestinfo.tf.internal.id" = "42"
+    }
+  }
+}
