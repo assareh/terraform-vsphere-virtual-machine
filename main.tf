@@ -1,43 +1,53 @@
+terraform {
+  required_version = ">= 0.13"
+  required_providers {
+    vsphere = {
+      source  = "hashicorp/vsphere"
+      version = ">= 1.24.1"
+    }
+  }
+}
+
 provider "vsphere" {
-  vsphere_server       = var.vsphere_server
+  # If you have a self-signed cert
   allow_unverified_ssl = true
 }
 
 data "vsphere_datacenter" "dc" {
-  name = var.vsphere_dc
+  name = "PacketDatacenter"
 }
 
-data "vsphere_resource_pool" "pool" {
-  name          = "${var.vsphere_host}/Resources"
+data "vsphere_compute_cluster" "cluster" {
+  name          = "MainCluster"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_host" "host" {
-  name          = var.vsphere_host
+  name          = "10.100.0.2"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_datastore" "datastore" {
-  name          = var.vsphere_datastore
+  name          = "datastore1"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_network" "network" {
-  name          = var.vsphere_network
+  name          = "VM Network"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = var.vsphere_template
+  name          = "ubuntu-18-template"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 resource "vsphere_virtual_machine" "vm" {
   name             = "${var.environment}-${var.app_name}-vm"
-  resource_pool_id = data.vsphere_resource_pool.pool.id
+  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
 
-  annotation = local.common_tags
+  annotation = "Managed with Terraform"
   num_cpus   = var.num_cpus
   memory     = var.memory
   guest_id   = data.vsphere_virtual_machine.template.guest_id
@@ -59,4 +69,35 @@ resource "vsphere_virtual_machine" "vm" {
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
   }
+}
+
+output "http_addr" {
+  value = <<HTTP
+    Connect to your virtual machine via HTTP:
+    $ http://${vsphere_virtual_machine.vm.default_ip_address}:8080
+HTTP
+}
+
+output "id" {
+  value = vsphere_virtual_machine.vm.id
+}
+
+output "ip" {
+  value = vsphere_virtual_machine.vm.default_ip_address
+}
+
+output "name" {
+  value = vsphere_virtual_machine.vm.name
+}
+
+output "ssh_addr" {
+  value = <<SSH
+
+    Connect to your virtual machine via SSH:
+    $ ssh hashicorp@${vsphere_virtual_machine.vm.default_ip_address}
+SSH
+}
+
+output "compute_cluster_id" {
+  value = data.vsphere_compute_cluster.cluster.id
 }
