@@ -79,9 +79,4 @@ resource "vsphere_virtual_machine" "cisco_router_1" {
       "ESX-port-2" = data.vsphere_network.network.id
     }
   }
-  vapp {
-    properties = {
-      "guestinfo.tf.internal.id" = "42"
-    }
-  }
 }
