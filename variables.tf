@@ -1,4 +1,44 @@
 #############################
+##   vSphere - Variables   ##
+#############################
+
+variable "vsphere_server" {
+  type        = string
+  description = "vSphere Server name"
+  default     = "192.168.10.7"
+}
+
+variable "vsphere_dc" {
+  type        = string
+  description = "vSphere Datacenter name"
+  default     = "Datacenter"
+}
+
+variable "vsphere_host" {
+  type        = string
+  description = "vSphere Host name"
+  default     = "192.168.10.11"
+}
+
+variable "vsphere_datastore" {
+  type        = string
+  description = "vSphere datastore name"
+  default     = "datastore1"
+}
+
+variable "vsphere_network" {
+  type        = string
+  description = "vSphere network name"
+  default     = "VM Network"
+}
+
+variable "vsphere_template" {
+  type        = string
+  description = "vSphere VM template name"
+  default     = "assareh-hashidemos"
+}
+
+#############################
 ## Application - Variables ##
 #############################
 
@@ -26,6 +66,10 @@ variable "owner" {
   description = "Specify the owner of the resource"
 }
 
+#############################
+##     VM - Variables      ##
+#############################
+
 # num cpus
 variable "num_cpus" {
   type        = number
@@ -45,4 +89,34 @@ variable "disk_size" {
   type        = number
   description = "Specify the amount of storage in GB to assign"
   default     = 16
+}
+
+# variable "disks" {
+#   type    = "map"
+# }
+
+# variable "network_interfaces" {
+#   type    = "map"
+# }
+
+#############################
+##    Tags - Variables     ##
+#############################
+
+# time to live on resources
+variable "ttl" {
+  type        = number
+  description = "Value of ttl tag on cloud resources"
+  default     = 3
+}
+
+# tags
+locals {
+  common_tags = <<EOF
+    owner     = assareh
+    se-region = AMER - West E2 - R2
+    purpose   = Demo Terraform and Vault
+    ttl       = ${var.ttl} hours
+    terraform = true
+EOF
 }
