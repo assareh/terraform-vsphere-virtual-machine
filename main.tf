@@ -58,5 +58,13 @@ resource "vsphere_virtual_machine" "vm" {
 
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
+
+    customize {
+      network_interface {
+        ipv4_address = "192.168.10.107"
+        ipv4_netmask = 24
+      }
+      ipv4_gateway = "192.168.10.1"
+    }
   }
 }
