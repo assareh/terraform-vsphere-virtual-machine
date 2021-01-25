@@ -60,6 +60,10 @@ resource "vsphere_virtual_machine" "vm" {
     template_uuid = data.vsphere_virtual_machine.template.id
 
     customize {
+      linux_options {
+        host_name = "terraform-test"
+        domain    = "test.internal"
+      }
       network_interface {
         ipv4_address = "192.168.10.107"
         ipv4_netmask = 24
